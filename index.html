@@ -1,0 +1,296 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value List</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #050505;
+            color: white;
+        }
+
+        /* 상단 */
+        header {
+            height: 70px;
+            background: #0d0d0d;
+            border-bottom: 1px solid #222;
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #6c63ff;
+        }
+
+        /* 검색 */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin: 30px auto;
+        }
+
+        .search {
+            width: 90%;
+            max-width: 600px;
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            padding: 15px 18px;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search:focus {
+            border-color: #6c63ff;
+        }
+
+        /* 제목 */
+        .title {
+            width: 90%;
+            max-width: 1100px;
+            margin: 20px auto;
+        }
+
+        .title h1 {
+            font-size: 30px;
+        }
+
+        .title p {
+            color: #888;
+            margin-top: 7px;
+        }
+
+        /* 아이템 목록 */
+        .items {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto 60px;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        /* 카드 */
+        .card {
+            background: #101010;
+            border: 1px solid #242424;
+            border-radius: 15px;
+            padding: 18px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #6c63ff;
+            background: #141414;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            background: #080808;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .item-name {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .rarity {
+            color: #888;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .value {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #6c63ff;
+        }
+
+        .value-label {
+            color: #777;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        /* 모바일 */
+        @media (max-width: 600px) {
+            header {
+                padding: 0 20px;
+            }
+
+            .title h1 {
+                font-size: 25px;
+            }
+
+            .items {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .item-image {
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">VALUE<span>LIST</span></div>
+</header>
+
+<div class="search-box">
+    <input
+        type="text"
+        class="search"
+        id="search"
+        placeholder="아이템 검색..."
+        oninput="searchItems()"
+    >
+</div>
+
+<div class="title">
+    <h1>📊 Value List</h1>
+    <p>아이템의 현재 가치를 확인하세요.</p>
+</div>
+
+<div class="items" id="items"></div>
+
+<script>
+
+    /*
+        ==========================
+        아이템 추가하는 곳
+        ==========================
+
+        image 부분에 이미지 URL을 넣으면 됩니다.
+
+        예:
+        image: "https://이미지주소.png"
+    */
+
+    const items = [
+
+        {
+            name: "Secret Unit",
+            rarity: "Secret",
+            value: 150,
+            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+        },
+
+        {
+            name: "Golden Crate",
+            rarity: "Exclusive",
+            value: 80,
+            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+        },
+
+        {
+            name: "Exclusive Crate",
+            rarity: "Exclusive",
+            value: 50,
+            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+        },
+
+        {
+            name: "Rare Unit",
+            rarity: "Rare",
+            value: 25,
+            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+        }
+
+    ];
+
+
+    function displayItems(list) {
+
+        const container = document.getElementById("items");
+
+        container.innerHTML = "";
+
+        list.forEach(item => {
+
+            const card = document.createElement("div");
+
+            card.className = "card";
+
+            card.innerHTML = `
+                <img
+                    class="item-image"
+                    src="${item.image}"
+                    onerror="this.src='https://via.placeholder.com/400x300/080808/ffffff?text=NO+IMAGE'"
+                >
+
+                <div class="item-name">
+                    ${item.name}
+                </div>
+
+                <div class="rarity">
+                    ${item.rarity}
+                </div>
+
+                <div class="value">
+                    <span class="value-label">VALUE</span>
+                    ${item.value.toLocaleString()}
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+    function searchItems() {
+
+        const search = document
+            .getElementById("search")
+            .value
+            .toLowerCase();
+
+        const filtered = items.filter(item =>
+            item.name.toLowerCase().includes(search)
+        );
+
+        displayItems(filtered);
+
+    }
+
+
+    displayItems(items);
+
+</script>
+
+</body>
+</html>
+```
