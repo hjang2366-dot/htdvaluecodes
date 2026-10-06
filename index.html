@@ -1,9 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Value List</title>
 
     <style>
@@ -24,8 +24,10 @@
             height: 70px;
             background: #0d0d0d;
             border-bottom: 1px solid #222;
+
             display: flex;
             align-items: center;
+
             padding: 0 35px;
         }
 
@@ -42,18 +44,23 @@
         .search-box {
             display: flex;
             justify-content: center;
+
             margin: 30px auto;
         }
 
         .search {
             width: 90%;
             max-width: 600px;
+
             background: #111;
             border: 1px solid #292929;
             border-radius: 12px;
+
             padding: 15px 18px;
+
             color: white;
             outline: none;
+
             font-size: 16px;
         }
 
@@ -65,6 +72,7 @@
         .title {
             width: 90%;
             max-width: 1100px;
+
             margin: 20px auto;
         }
 
@@ -81,63 +89,69 @@
         .items {
             width: 90%;
             max-width: 1100px;
+
             margin: 25px auto 60px;
 
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(230px, 1fr));
+
             gap: 18px;
         }
 
         /* 카드 */
         .card {
             background: #101010;
+
             border: 1px solid #242424;
             border-radius: 15px;
-            padding: 18px;
+
+            padding: 20px;
+
             transition: 0.2s;
         }
 
         .card:hover {
             transform: translateY(-4px);
+
             border-color: #6c63ff;
             background: #141414;
-        }
-
-        .item-image {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            background: #080808;
-            border-radius: 10px;
-            margin-bottom: 15px;
         }
 
         .item-name {
             font-size: 19px;
             font-weight: bold;
+
+            margin-bottom: 8px;
         }
 
         .rarity {
             color: #888;
+
             font-size: 13px;
-            margin-top: 5px;
         }
 
         .value {
-            margin-top: 15px;
+            margin-top: 18px;
+
             font-size: 22px;
             font-weight: bold;
+
             color: #6c63ff;
         }
 
         .value-label {
             color: #777;
+
             font-size: 12px;
+
             margin-right: 5px;
         }
 
         /* 모바일 */
         @media (max-width: 600px) {
+
             header {
                 padding: 0 20px;
             }
@@ -148,15 +162,20 @@
 
             .items {
                 grid-template-columns: repeat(2, 1fr);
+
                 gap: 10px;
             }
 
             .card {
-                padding: 12px;
+                padding: 14px;
             }
 
-            .item-image {
-                height: 130px;
+            .item-name {
+                font-size: 16px;
+            }
+
+            .value {
+                font-size: 19px;
             }
         }
     </style>
@@ -165,10 +184,16 @@
 <body>
 
 <header>
-    <div class="logo">VALUE<span>LIST</span></div>
+    <div class="logo">
+        VALUE<span>LIST</span>
+    </div>
 </header>
 
+
+<!-- 검색 -->
+
 <div class="search-box">
+
     <input
         type="text"
         class="search"
@@ -176,78 +201,95 @@
         placeholder="아이템 검색..."
         oninput="searchItems()"
     >
+
 </div>
+
+
+<!-- 제목 -->
 
 <div class="title">
+
     <h1>📊 Value List</h1>
+
     <p>Find the Value</p>
+
 </div>
 
+
+<!-- 아이템 -->
+
 <div class="items" id="items"></div>
+
 
 <script>
 
     /*
-        ==========================
-        아이템 추가하는 곳
-        ==========================
+    =================================
+    아이템 추가하는 곳
+    =================================
 
-        image 부분에 이미지 URL을 넣으면 됩니다.
+    value는 반드시 "25K"처럼
+    따옴표 안에 넣어주세요.
 
-        예:
-        image: "https://이미지주소.png"
+    예:
+
+    value: "25K"
+
     */
 
+
     const items = [
+
         {
             name: "Hyper Titan Speakerman",
             rarity: "Astral",
-            value: 25k,
-            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
-        },
-        {
-            name: "Golden Future",
-            rarity: "Secret",
-            value: 70k,
-            image: "golden_future_large_clockman-768x962.png"
+            value: "25K"
         },
 
         {
-            name: "Upgraded titan Drillman",
+            name: "Golden Future",
             rarity: "Secret",
-            value: 45k,
-            image: "다운로드 (59).png"
+            value: "70K"
+        },
+
+        {
+            name: "Upgraded Titan Drillman",
+            rarity: "Secret",
+            value: "45K"
         },
 
         {
             name: "Upgraded Titan TV",
             rarity: "Secret",
-            value: 62k,
-            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+            value: "62K"
         },
-        
+
         {
             name: "Golden Titan Cameraman",
             rarity: "Secret",
-            value: 25k,
-            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+            value: "25K"
         },
-        
-         {
+
+        {
             name: "Sinister Titan Clockman",
             rarity: "Secret",
-            value: 85k,
-            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+            value: "85K"
         },
+
         {
             name: "Astro Titan Cameraman",
             rarity: "Secret",
-            value: 32k,
-            image: "https://tr.rbxcdn.com/180DAY-xxxxxxxxxxxxxxxxxxxxxxxx/420/420/Image/Png/noFilter"
+            value: "32K"
         }
 
     ];
 
+
+    /*
+    =================================
+    아이템 표시
+    =================================
+    */
 
     function displayItems(list) {
 
@@ -255,18 +297,15 @@
 
         container.innerHTML = "";
 
+
         list.forEach(item => {
 
             const card = document.createElement("div");
 
             card.className = "card";
 
+
             card.innerHTML = `
-                <img
-                    class="item-image"
-                    src="${item.image}"
-                    onerror="this.src='https://via.placeholder.com/400x300/080808/ffffff?text=NO+IMAGE'"
-                >
 
                 <div class="item-name">
                     ${item.name}
@@ -277,10 +316,17 @@
                 </div>
 
                 <div class="value">
-                    <span class="value-label">VALUE</span>
-                    ${item.value.toLocaleString()}
+
+                    <span class="value-label">
+                        VALUE
+                    </span>
+
+                    ${item.value}
+
                 </div>
+
             `;
+
 
             container.appendChild(card);
 
@@ -289,6 +335,12 @@
     }
 
 
+    /*
+    =================================
+    검색
+    =================================
+    */
+
     function searchItems() {
 
         const search = document
@@ -296,14 +348,26 @@
             .value
             .toLowerCase();
 
+
         const filtered = items.filter(item =>
-            item.name.toLowerCase().includes(search)
+
+            item.name
+                .toLowerCase()
+                .includes(search)
+
         );
+
 
         displayItems(filtered);
 
     }
 
+
+    /*
+    =================================
+    처음 실행
+    =================================
+    */
 
     displayItems(items);
 
@@ -311,4 +375,3 @@
 
 </body>
 </html>
-```
