@@ -19,7 +19,6 @@
             color: white;
         }
 
-        /* 상단 */
         header {
             height: 70px;
             background: #0d0d0d;
@@ -27,6 +26,7 @@
 
             display: flex;
             align-items: center;
+            justify-content: space-between;
 
             padding: 0 35px;
         }
@@ -40,7 +40,30 @@
             color: #6c63ff;
         }
 
-        /* 검색 */
+        /* 언어 버튼 */
+
+        .language-btn {
+            background: #161616;
+            border: 1px solid #333;
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .language-btn:hover {
+            border-color: #6c63ff;
+            background: #1d1d1d;
+        }
+
         .search-box {
             display: flex;
             justify-content: center;
@@ -68,7 +91,6 @@
             border-color: #6c63ff;
         }
 
-        /* 제목 */
         .title {
             width: 90%;
             max-width: 1100px;
@@ -85,7 +107,6 @@
             margin-top: 7px;
         }
 
-        /* 아이템 목록 */
         .items {
             width: 90%;
             max-width: 1100px;
@@ -100,7 +121,6 @@
             gap: 18px;
         }
 
-        /* 카드 */
         .card {
             background: #101010;
 
@@ -150,6 +170,7 @@
         }
 
         /* 모바일 */
+
         @media (max-width: 600px) {
 
             header {
@@ -177,16 +198,32 @@
             .value {
                 font-size: 19px;
             }
+
+            .language-btn {
+                padding: 9px 12px;
+            }
         }
+
     </style>
 </head>
 
 <body>
 
 <header>
+
     <div class="logo">
         VALUE<span>LIST</span>
     </div>
+
+    <!-- 언어 변경 버튼 -->
+    <button
+        class="language-btn"
+        id="languageBtn"
+        onclick="toggleLanguage()"
+    >
+        한국어
+    </button>
+
 </header>
 
 
@@ -209,9 +246,13 @@
 
 <div class="title">
 
-    <h1>📊 Value List</h1>
+    <h1 id="title">
+        📊 Value List
+    </h1>
 
-    <p>Find the Value</p>
+    <p id="subtitle">
+        Find the Value
+    </p>
 
 </div>
 
@@ -225,89 +266,142 @@
 
     /*
     =================================
-    아이템 추가하는 곳
+    아이템 목록
     =================================
-
-    value는 반드시 "25K"처럼
-    따옴표 안에 넣어주세요.
-
-    예:
-
-    value: "25K"
-
     */
-
 
     const items = [
 
         {
             name: "Hyper Titan Speakerman",
+            koreanName: "하이퍼 타이탄 스피커맨",
+
             rarity: "Astral",
+            koreanRarity: "아스트랄",
+
             value: "200K"
         },
 
         {
             name: "Golden Future",
+            koreanName: "골든 퓨처",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "70K"
         },
 
         {
             name: "Upgraded Titan Drillman",
+            koreanName: "업그레이드 타이탄 드릴맨",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "45K"
         },
 
         {
             name: "Upgraded Titan TV",
+            koreanName: "업그레이드 타이탄 TV",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "62K"
         },
 
         {
             name: "Golden Titan Cameraman",
+            koreanName: "골든 타이탄 카메라맨",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "25K"
         },
 
         {
             name: "Sinister Titan Clockman",
+            koreanName: "시니스터 타이탄 클락맨",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "85K"
         },
 
         {
             name: "Astro Titan Cameraman",
+            koreanName: "아스트로 타이탄 카메라맨",
+
             rarity: "Secret",
+            koreanRarity: "시크릿",
+
             value: "32K"
         },
+
         {
             name: "Titan Cameraman",
+            koreanName: "타이탄 카메라맨",
+
             rarity: "Exclusive (Robux)",
-            value: "12k"
-        },
-        {
-            name: "Engineer Cameraman",
-            rarity: "Exotic",
-            value: "8K"
-        },
-        {
-            name: "Upgraded Titan Cameraman",
-            rarity: "Mythic",
-            value: "2K"
-        },
-        {
-            name: "Titan Cineman",
-            rarity: "Mythic",
-            value: "2.2K"
-        },
-        {
-            name: "Upgraded Titan Speakerman",
-            rarity: "Mythic",
-            value: "1.7K"
+            koreanRarity: "익스클루시브 (로벅스)",
+
+            value: "12K"
         },
 
+        {
+            name: "Engineer Cameraman",
+            koreanName: "엔지니어 카메라맨",
+
+            rarity: "Exotic",
+            koreanRarity: "엑조틱",
+
+            value: "8K"
+        },
+
+        {
+            name: "Upgraded Titan Cameraman",
+            koreanName: "업그레이드 타이탄 카메라맨",
+
+            rarity: "Mythic",
+            koreanRarity: "신화",
+
+            value: "2K"
+        },
+
+        {
+            name: "Titan Cineman",
+            koreanName: "타이탄 시네맨",
+
+            rarity: "Mythic",
+            koreanRarity: "신화",
+
+            value: "2.2K"
+        },
+
+        {
+            name: "Upgraded Titan Speakerman",
+            koreanName: "업그레이드 타이탄 스피커맨",
+
+            rarity: "Mythic",
+            koreanRarity: "신화",
+
+            value: "1.7K"
+        }
+
     ];
+
+
+    /*
+    =================================
+    현재 언어
+    =================================
+    */
+
+    let korean = false;
 
 
     /*
@@ -318,44 +412,128 @@
 
     function displayItems(list) {
 
-        const container = document.getElementById("items");
+        const container =
+            document.getElementById("items");
 
         container.innerHTML = "";
 
 
         list.forEach(item => {
 
-            const card = document.createElement("div");
+            const card =
+                document.createElement("div");
 
             card.className = "card";
 
 
-            card.innerHTML = `
+            if (korean) {
 
-                <div class="item-name">
-                    ${item.name}
-                </div>
+                card.innerHTML = `
 
-                <div class="rarity">
-                    ${item.rarity}
-                </div>
+                    <div class="item-name">
+                        ${item.koreanName}
+                    </div>
 
-                <div class="value">
+                    <div class="rarity">
+                        ${item.koreanRarity}
+                    </div>
 
-                    <span class="value-label">
-                        VALUE
-                    </span>
+                    <div class="value">
 
-                    ${item.value}
+                        <span class="value-label">
+                            가치
+                        </span>
 
-                </div>
+                        ${item.value}
 
-            `;
+                    </div>
+
+                `;
+
+            } else {
+
+                card.innerHTML = `
+
+                    <div class="item-name">
+                        ${item.name}
+                    </div>
+
+                    <div class="rarity">
+                        ${item.rarity}
+                    </div>
+
+                    <div class="value">
+
+                        <span class="value-label">
+                            VALUE
+                        </span>
+
+                        ${item.value}
+
+                    </div>
+
+                `;
+
+            }
 
 
             container.appendChild(card);
 
         });
+
+    }
+
+
+    /*
+    =================================
+    언어 변경
+    =================================
+    */
+
+    function toggleLanguage() {
+
+        korean = !korean;
+
+
+        const title =
+            document.getElementById("title");
+
+        const subtitle =
+            document.getElementById("subtitle");
+
+        const button =
+            document.getElementById("languageBtn");
+
+        const search =
+            document.getElementById("search");
+
+
+        if (korean) {
+
+            title.innerHTML = "📊 가치표";
+
+            subtitle.innerHTML =
+                "아이템의 가치를 확인하세요";
+
+            button.innerHTML = "English";
+
+            search.placeholder = "검색...";
+
+        } else {
+
+            title.innerHTML = "📊 Value List";
+
+            subtitle.innerHTML =
+                "Find the Value";
+
+            button.innerHTML = "한국어";
+
+            search.placeholder = "Search...";
+
+        }
+
+
+        searchItems();
 
     }
 
@@ -368,19 +546,27 @@
 
     function searchItems() {
 
-        const search = document
-            .getElementById("search")
-            .value
-            .toLowerCase();
+        const search =
+            document
+                .getElementById("search")
+                .value
+                .toLowerCase();
 
 
-        const filtered = items.filter(item =>
+        const filtered =
+            items.filter(item =>
 
-            item.name
-                .toLowerCase()
-                .includes(search)
+                item.name
+                    .toLowerCase()
+                    .includes(search)
 
-        );
+                ||
+
+                item.koreanName
+                    .toLowerCase()
+                    .includes(search)
+
+            );
 
 
         displayItems(filtered);
