@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Value List</title>
 
     <style>
@@ -20,42 +20,41 @@
         }
 
         header {
-            height: 70px;
+            min-height: 70px;
             background: #0d0d0d;
             border-bottom: 1px solid #222;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 35px;
+            gap: 12px;
+            padding: 12px 35px;
         }
 
         .logo {
             font-size: 25px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .logo span {
             color: #6c63ff;
         }
 
-        /* 언어 버튼 */
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         .language-btn {
             background: #161616;
             border: 1px solid #333;
             color: white;
-
             padding: 10px 16px;
-
             border-radius: 10px;
-
             cursor: pointer;
-
             font-size: 14px;
             font-weight: bold;
-
             transition: 0.2s;
         }
 
@@ -67,23 +66,18 @@
         .search-box {
             display: flex;
             justify-content: center;
-
             margin: 30px auto;
         }
 
         .search {
             width: 90%;
             max-width: 600px;
-
             background: #111;
             border: 1px solid #292929;
             border-radius: 12px;
-
             padding: 15px 18px;
-
             color: white;
             outline: none;
-
             font-size: 16px;
         }
 
@@ -94,7 +88,6 @@
         .title {
             width: 90%;
             max-width: 1100px;
-
             margin: 20px auto;
         }
 
@@ -110,31 +103,22 @@
         .items {
             width: 90%;
             max-width: 1100px;
-
             margin: 25px auto 60px;
-
             display: grid;
-
-            grid-template-columns:
-                repeat(auto-fill, minmax(230px, 1fr));
-
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
             gap: 18px;
         }
 
         .card {
             background: #101010;
-
             border: 1px solid #242424;
             border-radius: 15px;
-
             padding: 20px;
-
             transition: 0.2s;
         }
 
         .card:hover {
             transform: translateY(-4px);
-
             border-color: #6c63ff;
             background: #141414;
         }
@@ -142,39 +126,162 @@
         .item-name {
             font-size: 19px;
             font-weight: bold;
-
             margin-bottom: 8px;
         }
 
         .rarity {
             color: #888;
-
             font-size: 13px;
         }
 
         .value {
             margin-top: 18px;
-
             font-size: 22px;
             font-weight: bold;
-
             color: #6c63ff;
         }
 
         .value-label {
             color: #777;
-
             font-size: 12px;
-
             margin-right: 5px;
         }
 
-        /* 모바일 */
+        /* CODE LIST 팝업 */
+
+        .code-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.82);
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .code-window {
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: #101010;
+            border: 1px solid #292929;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 0 35px rgba(108, 99, 255, 0.15);
+            animation: popIn 0.2s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .code-header h2 {
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: #222;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .close-btn:hover {
+            background: #333;
+        }
+
+        .code-subtitle {
+            color: #888;
+            margin: 10px 0 20px;
+            font-size: 14px;
+        }
+
+        .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            background: #171717;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .code-item h3 {
+            font-size: 16px;
+            color: white;
+            overflow-wrap: anywhere;
+        }
+
+        .code-item p {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .copy-btn {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #817aff;
+        }
+
+        .copy-btn.copied {
+            background: #198754;
+        }
+
+        .no-codes {
+            color: #888;
+            text-align: center;
+            padding: 25px 0;
+        }
 
         @media (max-width: 600px) {
-
             header {
-                padding: 0 20px;
+                padding: 12px 14px;
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .header-buttons {
+                gap: 6px;
+            }
+
+            .language-btn {
+                padding: 9px 10px;
+                font-size: 12px;
             }
 
             .title h1 {
@@ -182,55 +289,64 @@
             }
 
             .items {
-                grid-template-columns: repeat(2, 1fr);
-
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 10px;
             }
 
             .card {
                 padding: 14px;
+                min-width: 0;
             }
 
             .item-name {
                 font-size: 16px;
+                overflow-wrap: anywhere;
             }
 
             .value {
                 font-size: 19px;
             }
 
-            .language-btn {
-                padding: 9px 12px;
+            .code-window {
+                padding: 18px;
+            }
+
+            .code-header h2 {
+                font-size: 21px;
+            }
+
+            .code-item {
+                padding: 12px;
+            }
+
+            .copy-btn {
+                padding: 9px 11px;
+                font-size: 12px;
             }
         }
-
     </style>
 </head>
 
 <body>
 
 <header>
-
     <div class="logo">
         VALUE<span>LIST</span>
     </div>
 
-    <!-- 언어 변경 버튼 -->
-    <button
-        class="language-btn"
-        id="languageBtn"
-        onclick="toggleLanguage()"
-    >
-        한국어
-    </button>
+    <div class="header-buttons">
+        <button class="language-btn" onclick="toggleCodeList()">
+            CODE LIST
+        </button>
 
+        <button class="language-btn" id="languageBtn" onclick="toggleLanguage()">
+            한국어
+        </button>
+    </div>
 </header>
 
-
 <!-- 검색 -->
-
 <div class="search-box">
-
     <input
         type="text"
         class="search"
@@ -238,369 +354,376 @@
         placeholder="Search..."
         oninput="searchItems()"
     >
-
 </div>
-
 
 <!-- 제목 -->
-
 <div class="title">
-
-    <h1 id="title">
-        📊 Value List
-    </h1>
-
-    <p id="subtitle">
-        Find the Value
-    </p>
-
+    <h1 id="title">📊 Value List</h1>
+    <p id="subtitle">Find the Value</p>
 </div>
 
-
-<!-- 아이템 -->
-
+<!-- 아이템 목록 -->
 <div class="items" id="items"></div>
 
+<!-- CODE LIST 팝업 창 -->
+<div class="code-modal" id="codeModal">
+    <div class="code-window">
+        <div class="code-header">
+            <h2>🎁 CODE LIST</h2>
+            <button
+                class="close-btn"
+                onclick="toggleCodeList(false)"
+                aria-label="Close"
+            >✕</button>
+        </div>
+
+        <p class="code-subtitle" id="codeSubtitle">
+            Redeem codes for rewards!
+        </p>
+
+        <div id="codeItems"></div>
+    </div>
+</div>
 
 <script>
-
-    /*
-    =================================
-    아이템 목록
-    =================================
-    */
+    /* =========================
+       아이템 목록
+    ========================= */
 
     const items = [
         {
             name: "Corroupted Watch of Doom",
             koreanName: "부패한 파멸의 감시자",
-
             rarity: "Astral",
             koreanRarity: "아스트랄",
-
             value: "1.5M"
         },
-        
         {
             name: "Hyper Titan Speakerman",
             koreanName: "하이퍼 타이탄 스피커맨",
-
             rarity: "Astral",
             koreanRarity: "아스트랄",
-
             value: "200K"
         },
-
-     {
+        {
             name: "Cured Watch of Doom",
             koreanName: "치유된 파멸의 감시자",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "120K"
         },
-
         {
             name: "Golden Future",
             koreanName: "골든 퓨처",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "39K"
         },
-
         {
             name: "Upgraded Titan Drillman",
             koreanName: "업그레이드 타이탄 드릴맨",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "45K"
         },
-
         {
             name: "Upgraded Titan TV",
             koreanName: "업그레이드 타이탄 TV",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "62K"
         },
-
         {
             name: "Golden Titan Cameraman",
             koreanName: "골든 타이탄 카메라맨",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "42K"
         },
-
         {
             name: "Sinister Titan Clockman",
             koreanName: "시니스터 타이탄 클락맨",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "85K"
         },
-
         {
             name: "Astro Titan Cameraman",
             koreanName: "아스트로 타이탄 카메라맨",
-
             rarity: "Secret",
             koreanRarity: "시크릿",
-
             value: "32K"
         },
-
         {
             name: "Titan Cameraman",
             koreanName: "타이탄 카메라맨",
-
             rarity: "Exclusive (Robux)",
             koreanRarity: "익스클루시브 (로벅스)",
-
             value: "12K"
         },
-
         {
             name: "Engineer Cameraman",
             koreanName: "엔지니어 카메라맨",
-
             rarity: "Exotic",
             koreanRarity: "엑소틱",
-
             value: "8K"
         },
-
         {
             name: "Upgraded Titan Cameraman",
             koreanName: "업그레이드 타이탄 카메라맨",
-
             rarity: "Mythic",
             koreanRarity: "신화",
-
             value: "2K"
         },
-
         {
             name: "Titan Cineman",
             koreanName: "타이탄 시네맨",
-
             rarity: "Mythic",
             koreanRarity: "신화",
-
             value: "2.2K"
         },
-
         {
             name: "Upgraded Titan Speakerman",
             koreanName: "업그레이드 타이탄 스피커맨",
-
             rarity: "Mythic",
             koreanRarity: "신화",
-
             value: "1.7K"
         }
-
     ];
 
+    /* =========================
+       코드 목록
+       실제 게임 코드로 수정하세요.
+    ========================= */
 
-    /*
-    =================================
-    현재 언어
-    =================================
-    */
+    const codes = [
+        {
+            code: "RELEASE",
+            reward: "Free Rewards",
+            koreanReward: "무료 보상"
+        },
+        {
+            code: "UPDATE",
+            reward: "Free Rewards",
+            koreanReward: "무료 보상"
+        },
+        {
+            code: "THANKS",
+            reward: "Free Rewards",
+            koreanReward: "무료 보상"
+        }
+    ];
 
     let korean = false;
 
-
-    /*
-    =================================
-    아이템 표시
-    =================================
-    */
+    /* =========================
+       아이템 표시
+    ========================= */
 
     function displayItems(list) {
-
-        const container =
-            document.getElementById("items");
-
+        const container = document.getElementById("items");
         container.innerHTML = "";
 
-
         list.forEach(item => {
-
-            const card =
-                document.createElement("div");
-
+            const card = document.createElement("div");
             card.className = "card";
 
+            const name = document.createElement("div");
+            name.className = "item-name";
+            name.textContent = korean ? item.koreanName : item.name;
 
-            if (korean) {
+            const rarity = document.createElement("div");
+            rarity.className = "rarity";
+            rarity.textContent = korean ? item.koreanRarity : item.rarity;
 
-                card.innerHTML = `
+            const value = document.createElement("div");
+            value.className = "value";
 
-                    <div class="item-name">
-                        ${item.koreanName}
-                    </div>
+            const label = document.createElement("span");
+            label.className = "value-label";
+            label.textContent = korean ? "가치" : "VALUE";
 
-                    <div class="rarity">
-                        ${item.koreanRarity}
-                    </div>
-
-                    <div class="value">
-
-                        <span class="value-label">
-                            가치
-                        </span>
-
-                        ${item.value}
-
-                    </div>
-
-                `;
-
-            } else {
-
-                card.innerHTML = `
-
-                    <div class="item-name">
-                        ${item.name}
-                    </div>
-
-                    <div class="rarity">
-                        ${item.rarity}
-                    </div>
-
-                    <div class="value">
-
-                        <span class="value-label">
-                            VALUE
-                        </span>
-
-                        ${item.value}
-
-                    </div>
-
-                `;
-
-            }
-
-
+            value.append(label, document.createTextNode(" " + item.value));
+            card.append(name, rarity, value);
             container.appendChild(card);
-
         });
-
     }
 
-
-    /*
-    =================================
-    언어 변경
-    =================================
-    */
+    /* =========================
+       언어 변경
+    ========================= */
 
     function toggleLanguage() {
-
         korean = !korean;
 
+        document.getElementById("title").textContent =
+            korean ? "📊 가치표" : "📊 Value List";
 
-        const title =
-            document.getElementById("title");
+        document.getElementById("subtitle").textContent =
+            korean
+                ? "아이템의 가치를 확인하세요"
+                : "Find the Value";
 
-        const subtitle =
-            document.getElementById("subtitle");
+        document.getElementById("languageBtn").textContent =
+            korean ? "English" : "한국어";
 
-        const button =
-            document.getElementById("languageBtn");
+        document.getElementById("search").placeholder =
+            korean ? "검색..." : "Search...";
 
-        const search =
-            document.getElementById("search");
+        document.getElementById("codeSubtitle").textContent =
+            korean ? "게임 보상 코드를 확인하세요!" :
+                     "Redeem codes for rewards!";
 
-
-        if (korean) {
-
-            title.innerHTML = "📊 가치표";
-
-            subtitle.innerHTML =
-                "아이템의 가치를 확인하세요";
-
-            button.innerHTML = "English";
-
-            search.placeholder = "검색...";
-
-        } else {
-
-            title.innerHTML = "📊 Value List";
-
-            subtitle.innerHTML =
-                "Find the Value";
-
-            button.innerHTML = "한국어";
-
-            search.placeholder = "Search...";
-
-        }
-
-
+        displayCodes();
         searchItems();
-
     }
 
-
-    /*
-    =================================
-    검색
-    =================================
-    */
+    /* =========================
+       아이템 검색
+    ========================= */
 
     function searchItems() {
+        const query = document
+            .getElementById("search")
+            .value
+            .trim()
+            .toLowerCase();
 
-        const search =
-            document
-                .getElementById("search")
-                .value
-                .toLowerCase();
-
-
-        const filtered =
-            items.filter(item =>
-
-                item.name
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                item.koreanName
-                    .toLowerCase()
-                    .includes(search)
-
-            );
-
+        const filtered = items.filter(item =>
+            item.name.toLowerCase().includes(query) ||
+            item.koreanName.toLowerCase().includes(query) ||
+            item.rarity.toLowerCase().includes(query) ||
+            item.koreanRarity.toLowerCase().includes(query)
+        );
 
         displayItems(filtered);
-
     }
 
+    /* =========================
+       CODE LIST 열기 / 닫기
+    ========================= */
 
-    /*
-    =================================
-    처음 실행
-    =================================
-    */
+    function toggleCodeList(forceOpen) {
+        const modal = document.getElementById("codeModal");
+
+        const shouldOpen = typeof forceOpen === "boolean"
+            ? forceOpen
+            : modal.style.display !== "flex";
+
+        modal.style.display = shouldOpen ? "flex" : "none";
+    }
+
+    /* =========================
+       코드 목록 표시
+    ========================= */
+
+    function displayCodes() {
+        const container = document.getElementById("codeItems");
+        container.innerHTML = "";
+
+        if (codes.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "no-codes";
+            empty.textContent = korean
+                ? "현재 등록된 코드가 없습니다."
+                : "No codes available.";
+            container.appendChild(empty);
+            return;
+        }
+
+        codes.forEach(item => {
+            const row = document.createElement("div");
+            row.className = "code-item";
+
+            const info = document.createElement("div");
+
+            const name = document.createElement("h3");
+            name.textContent = item.code;
+
+            const reward = document.createElement("p");
+            reward.textContent = korean
+                ? item.koreanReward
+                : item.reward;
+
+            const button = document.createElement("button");
+            button.className = "copy-btn";
+            button.textContent = korean ? "복사" : "COPY";
+            button.type = "button";
+
+            button.addEventListener("click", () => {
+                copyCode(item.code, button);
+            });
+
+            info.append(name, reward);
+            row.append(info, button);
+            container.appendChild(row);
+        });
+    }
+
+    /* =========================
+       코드 복사
+    ========================= */
+
+    async function copyCode(code, button) {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(code);
+            } else {
+                const input = document.createElement("textarea");
+                input.value = code;
+                input.style.position = "fixed";
+                input.style.left = "-9999px";
+
+                document.body.appendChild(input);
+                input.focus();
+                input.select();
+
+                const success = document.execCommand("copy");
+                input.remove();
+
+                if (!success) {
+                    throw new Error("Copy failed");
+                }
+            }
+
+            button.textContent = korean ? "복사 완료!" : "COPIED!";
+            button.classList.add("copied");
+
+            setTimeout(() => {
+                button.textContent = korean ? "복사" : "COPY";
+                button.classList.remove("copied");
+            }, 1500);
+
+        } catch (error) {
+            window.prompt(
+                korean ? "코드를 복사하세요:" : "Copy this code:",
+                code
+            );
+        }
+    }
+
+    /* =========================
+       창 바깥 클릭 및 ESC 닫기
+    ========================= */
+
+    document.getElementById("codeModal").addEventListener("click", event => {
+        if (event.target === event.currentTarget) {
+            toggleCodeList(false);
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            toggleCodeList(false);
+        }
+    });
+
+    /* =========================
+       처음 실행
+    ========================= */
 
     displayItems(items);
-
+    displayCodes();
 </script>
 
 </body>
