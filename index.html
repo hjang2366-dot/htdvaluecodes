@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,6 +43,8 @@
         .header-buttons {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
@@ -127,6 +129,7 @@
             font-size: 19px;
             font-weight: bold;
             margin-bottom: 8px;
+            overflow-wrap: anywhere;
         }
 
         .rarity {
@@ -147,7 +150,7 @@
             margin-right: 5px;
         }
 
-        /* CODE LIST 팝업 */
+        /* 팝업 창 공통 */
 
         .code-modal {
             display: none;
@@ -265,6 +268,28 @@
             padding: 25px 0;
         }
 
+        /* 사인 배율 */
+
+        .sign-multiplier {
+            color: #817aff;
+            font-size: 21px;
+            font-weight: bold;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .sign-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 10px;
+            border-radius: 7px;
+            background: rgba(108, 99, 255, 0.13);
+            border: 1px solid rgba(108, 99, 255, 0.35);
+            color: #a49eff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
         @media (max-width: 600px) {
             header {
                 padding: 12px 14px;
@@ -300,7 +325,6 @@
 
             .item-name {
                 font-size: 16px;
-                overflow-wrap: anywhere;
             }
 
             .value {
@@ -339,6 +363,10 @@
             CODE LIST
         </button>
 
+        <button class="language-btn" onclick="toggleSignList()">
+            SIGN LIST
+        </button>
+
         <button class="language-btn" id="languageBtn" onclick="toggleLanguage()">
             한국어
         </button>
@@ -365,11 +393,11 @@
 <!-- 아이템 목록 -->
 <div class="items" id="items"></div>
 
-<!-- CODE LIST 팝업 창 -->
+<!-- CODE LIST 팝업 -->
 <div class="code-modal" id="codeModal">
     <div class="code-window">
         <div class="code-header">
-            <h2>🎁 CODE LIST</h2>
+            <h2 id="codeTitle">🎁 CODE LIST</h2>
             <button
                 class="close-btn"
                 onclick="toggleCodeList(false)"
@@ -382,6 +410,26 @@
         </p>
 
         <div id="codeItems"></div>
+    </div>
+</div>
+
+<!-- SIGN LIST 팝업 -->
+<div class="code-modal" id="signModal">
+    <div class="code-window">
+        <div class="code-header">
+            <h2 id="signTitle">✍️ SIGN LIST</h2>
+            <button
+                class="close-btn"
+                onclick="toggleSignList(false)"
+                aria-label="Close"
+            >✕</button>
+        </div>
+
+        <p class="code-subtitle" id="signSubtitle">
+            Check signed units and their multipliers!
+        </p>
+
+        <div id="signItems"></div>
     </div>
 </div>
 
@@ -493,7 +541,6 @@
 
     /* =========================
        코드 목록
-       실제 게임 코드로 수정하세요.
     ========================= */
 
     const codes = [
@@ -516,6 +563,79 @@
             code: "ZombieMutiSoon",
             reward: "100 DoomCoins",
             koreanReward: "100 파멸코인"
+        }
+    ];
+
+    /* =========================
+       사인 목록
+       이곳에서 이름과 배율을 수정하세요.
+    ========================= */
+
+    const signs = [
+        {
+            name: "QPALDJW_TY",
+            koreanName: "QPALDJW_TY",
+            multiplier: "X1.2"
+        },
+        {
+            name: "siyul_lee1",
+            koreanName: "siyul_lee1",
+            multiplier: "X1.35"
+        },
+        {
+            name: "ventmanso",
+            koreanName: "ventmanso",
+            multiplier: "X1.5"
+        },
+        {
+            name: "Tradefriend2",
+            koreanName: "Tradefriend2",
+            multiplier: "X1.7"
+        },
+        {
+            name: "Fn2d6",
+            koreanName: "Fn2d6",
+            multiplier: "X1.4"
+        },
+        {
+            name: "denapory",
+            koreanName: "denapory",
+            multiplier: "X1.4"
+        },
+        {
+            name: "kaandiebiriyokartik",
+            koreanName: "kaandiebiriyokartik",
+            multiplier: "X1.8"
+        },
+        {
+            name: "1wimmon_2",
+            koreanName: "1wimmon_2",
+            multiplier: "X1.45"
+        },
+        {
+            name: "zzzzzzzzz_119",
+            koreanName: "zzzzzzzzz_119",
+            multiplier: "X2"
+        },
+        {
+            name: "NOOB2830009",
+            koreanName: "NOOB2830009",
+            multiplier: "X2"
+        },
+        {
+            name: "zxcvbnm_xox",
+            koreanName: "zxcvbnm_xox",
+            multiplier: "X2.5"
+        },
+        {
+            name: "duelsnxh",
+            koreanName: "duelsnxh",
+            multiplier: "X3"
+        },
+        {
+            name: "Dev_Bacone",
+            koreanName: "Dev_Bacone",
+            multiplier: "X3.5"
         },
     ];
 
@@ -528,6 +648,16 @@
     function displayItems(list) {
         const container = document.getElementById("items");
         container.innerHTML = "";
+
+        if (list.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "no-codes";
+            empty.textContent = korean
+                ? "아이템을 찾을 수 없습니다."
+                : "No items found.";
+            container.appendChild(empty);
+            return;
+        }
 
         list.forEach(item => {
             const card = document.createElement("div");
@@ -575,11 +705,24 @@
         document.getElementById("search").placeholder =
             korean ? "검색..." : "Search...";
 
+        document.getElementById("codeTitle").textContent =
+            korean ? "🎁 코드 목록" : "🎁 CODE LIST";
+
         document.getElementById("codeSubtitle").textContent =
-            korean ? "게임 보상 코드를 확인하세요!" :
-                     "Redeem codes for rewards!";
+            korean
+                ? "게임 보상 코드를 확인하세요!"
+                : "Redeem codes for rewards!";
+
+        document.getElementById("signTitle").textContent =
+            korean ? "✍️ 사인 목록" : "✍️ SIGN LIST";
+
+        document.getElementById("signSubtitle").textContent =
+            korean
+                ? "사인과 배율을 확인하세요!"
+                : "Check signed units and their multipliers!";
 
         displayCodes();
+        displaySigns();
         searchItems();
     }
 
@@ -619,6 +762,20 @@
     }
 
     /* =========================
+       SIGN LIST 열기 / 닫기
+    ========================= */
+
+    function toggleSignList(forceOpen) {
+        const modal = document.getElementById("signModal");
+
+        const shouldOpen = typeof forceOpen === "boolean"
+            ? forceOpen
+            : modal.style.display !== "flex";
+
+        modal.style.display = shouldOpen ? "flex" : "none";
+    }
+
+    /* =========================
        코드 목록 표시
     ========================= */
 
@@ -632,6 +789,7 @@
             empty.textContent = korean
                 ? "현재 등록된 코드가 없습니다."
                 : "No codes available.";
+
             container.appendChild(empty);
             return;
         }
@@ -661,6 +819,56 @@
 
             info.append(name, reward);
             row.append(info, button);
+            container.appendChild(row);
+        });
+    }
+
+    /* =========================
+       사인 목록 표시
+    ========================= */
+
+    function displaySigns() {
+        const container = document.getElementById("signItems");
+        container.innerHTML = "";
+
+        if (signs.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "no-codes";
+            empty.textContent = korean
+                ? "현재 등록된 사인이 없습니다."
+                : "No signatures available.";
+
+            container.appendChild(empty);
+            return;
+        }
+
+        signs.forEach(sign => {
+            const row = document.createElement("div");
+            row.className = "code-item";
+
+            const info = document.createElement("div");
+
+            const name = document.createElement("h3");
+            name.textContent = korean
+                ? sign.koreanName
+                : sign.name;
+
+            const description = document.createElement("p");
+            description.textContent = korean
+                ? "사인 배율"
+                : "Signature Multiplier";
+
+            const badge = document.createElement("span");
+            badge.className = "sign-badge";
+            badge.textContent = korean ? "인증된 사인" : "SIGNED";
+
+            info.append(name, description, badge);
+
+            const multiplier = document.createElement("div");
+            multiplier.className = "sign-multiplier";
+            multiplier.textContent = sign.multiplier;
+
+            row.append(info, multiplier);
             container.appendChild(row);
         });
     }
@@ -711,15 +919,20 @@
        창 바깥 클릭 및 ESC 닫기
     ========================= */
 
-    document.getElementById("codeModal").addEventListener("click", event => {
-        if (event.target === event.currentTarget) {
-            toggleCodeList(false);
-        }
+    ["codeModal", "signModal"].forEach(id => {
+        const modal = document.getElementById(id);
+
+        modal.addEventListener("click", event => {
+            if (event.target === event.currentTarget) {
+                modal.style.display = "none";
+            }
+        });
     });
 
     document.addEventListener("keydown", event => {
         if (event.key === "Escape") {
             toggleCodeList(false);
+            toggleSignList(false);
         }
     });
 
@@ -729,7 +942,9 @@
 
     displayItems(items);
     displayCodes();
+    displaySigns();
 </script>
 
 </body>
 </html>
+```
